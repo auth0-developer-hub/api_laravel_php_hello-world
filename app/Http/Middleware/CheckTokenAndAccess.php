@@ -9,9 +9,8 @@ use Auth0\SDK\Exception\InvalidTokenException;
 use Closure;
 use Illuminate\Http\Response;
 
-class CheckJWT
+class CheckTokenAndAccess
 {
-
     protected Auth0UserRepository $userRepository;
 
     public function __construct(Auth0UserRepository $userRepository) {
@@ -34,7 +33,6 @@ class CheckJWT
                         Response::HTTP_UNAUTHORIZED
                     );
                 }
-
             }
             catch (InvalidTokenException $e) {
                 return response()->json(
