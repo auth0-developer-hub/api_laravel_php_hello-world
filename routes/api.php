@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\APIController;
+use App\Http\Controllers\Api\Auth0APIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,15 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group([ 'prefix' => 'messages'], function () {
-    Route::get('public', [APIController::class, 'getPublicMessage']);
-    Route::get('protected', [APIController::class, 'getProtectedMessage']);
-    Route::get('admin', [APIController::class, 'getAdminMessage']);
+Route::group(['prefix' => 'messages'], function () {
+    Route::get('public', [Auth0APIController::class, 'getPublicMessage']);
+    Route::get('protected', [Auth0APIController::class, 'getProtectedMessage']);
+    Route::get('admin', [Auth0APIController::class, 'getAdminMessage']);
 });
-
-
-Route::fallback(function(){
-    return response()->json([
-        "message" => "Not Found"], 404);
-});
-

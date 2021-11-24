@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Dotenv\Dotenv;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $dotenv = Dotenv::createMutable(base_path());
+        $dotenv->load();
+        $dotenv->required(['APP_PORT', 'CLIENT_ORIGIN_URL']);
     }
 
     /**
