@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['GET'],
 
-    'allowed_origins' => [env('CLIENT_ORIGIN_URL', '*')],
+    'allowed_origins' => [env('CLIENT_ORIGIN_URL')],
 
     'allowed_origins_patterns' => [],
 

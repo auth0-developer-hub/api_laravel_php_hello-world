@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
-class Auth0APIController extends BaseAPIController
+class MessageController extends BaseAPIController
 {
     public function getPublicMessage()
     {

@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $dotenv = Dotenv::createMutable(base_path());
         $dotenv->load();
-        $dotenv->required(['APP_PORT', 'CLIENT_ORIGIN_URL']);
+        $dotenv->required(['SERVER_PORT', 'CLIENT_ORIGIN_URL']);
     }
 
     /**

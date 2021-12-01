@@ -15,11 +15,11 @@ The goal is to use Auth0 to only allow requests that contain a valid access toke
 
 This repository assumes you have a working Laravel environment, and that you can start a Laravel application server. Depending of the way you installed it this process might differ. However, you will generally follow one of these methods:
 
-- *Using Laravel Sail:* In this case, you will have your environment and dependencies ready to go for your Laravel app, and won't have to install them manually.
+- *Using Laravel Sail:* In this case, you will have your environment and dependencies ready to go for your Laravel app through a docker container, and won't have to install them manually.
 
-- *Installing Laravel through composer:* If you have PHP and composer installed globally, you will most likely need to install the application dependencies and set up your environment, including a Database, a web server, and additional tools like Redis and Selenium. We've outlined some of these steps below for reference, but for testing purposes we strongly recommend going with the first installation method.
+- *Installing Laravel through composer:* If you have PHP and composer installed globally, you can also run this application through the `artisan` executable in the project's root directory
 
-For general Laravel installation information you can read [this documentation article](https://laravel.com/docs/8.x/installation).
+For general Laravel installation information you can read [this article](https://laravel.com/docs/8.x/installation).
 
 ### Install the project's dependencies
 
@@ -31,11 +31,11 @@ To install the required project dependencies run the following command.
 composer install
 ```
 
-This will pull the Laravel framework and its own dependencies into te environment, allowing you to use them.
+This will pull the Laravel framework and its own dependencies into the environment, allowing you to use them.
 
 ### Set up your environment
 
-Navigate to the base directory of this repo and generate an environment configuration file (`.env`). Laravel reads this information from the file through the `phpdotenv` library, included with the framework. We've provided a sample file that you can copy and tweak as needed.
+Navigate to the base directory of this repo and generate an environment configuration file (`.env`). Laravel reads this information from the file through the `phpdotenv` library, included with the framework. We've provided a sample file that you can copy and tweak as needed. Usually, fresh Laravel installations have a lot of environment variables set that configure most of the included services, however, you will find that the example environment file we've provided is a lot leaner. It has the exact required variables to run a simple API server.
 
 ```bash
 cp .env.example .env

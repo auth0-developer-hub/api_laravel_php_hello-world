@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Auth0APIController;
+use App\Http\Controllers\Api\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +15,8 @@ use App\Http\Controllers\Api\Auth0APIController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::group(['prefix' => 'messages'], function () {
-    Route::get('public', [Auth0APIController::class, 'getPublicMessage']);
-    Route::get('protected', [Auth0APIController::class, 'getProtectedMessage']);
-    Route::get('admin', [Auth0APIController::class, 'getAdminMessage']);
+    Route::get('public', [MessageController::class, 'getPublicMessage']);
+    Route::get('protected', [MessageController::class, 'getProtectedMessage']);
+    Route::get('admin', [MessageController::class, 'getAdminMessage']);
 });
