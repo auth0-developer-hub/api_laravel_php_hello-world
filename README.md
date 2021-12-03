@@ -1,6 +1,6 @@
 # Hello World API: Laravel + PHP Sample
 
-You can use this sample project to learn how to secure a simple Laravel API server using Auth0. This guide is for Laravel 8.0+ running on PHP 7.3+
+You can use this sample project to learn how to secure a simple Laravel API server using Auth0. This guide is for Laravel 8.0+ running on PHP 7.4+
 
 The `starter` branch offers a working API server that exposes three public endpoints. Each endpoint returns a different type of message: public, protected, and admin.
 

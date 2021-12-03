@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\MessagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +16,7 @@ use App\Http\Controllers\Api\MessageController;
 */
 
 Route::group(['prefix' => 'messages'], function () {
-    Route::get('public', [MessageController::class, 'getPublicMessage']);
-    Route::get('protected', [MessageController::class, 'getProtectedMessage']);
-    Route::get('admin', [MessageController::class, 'getAdminMessage']);
+    Route::get('public', [MessagesController::class, 'showPublicMessage']);
+    Route::get('protected', [MessagesController::class, 'showProtectedMessage']);
+    Route::get('admin', [MessagesController::class, 'showAdminMessage']);
 });

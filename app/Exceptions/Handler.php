@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Traits\ApiResponder;
 use App\Exceptions\ApiException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -10,8 +9,6 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
-
-    use ApiResponder;
 
     /**
      * A list of the exception types that are not reported.
@@ -52,5 +49,9 @@ class Handler extends ExceptionHandler
             dd($exception->getMessage());
             return $this->apiError('Internal Server Error', 500);
         });
+    }
+
+    protected function apiError($message, $code) {
+        return response()->json(['message' => $message], $code);
     }
 }
