@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Dotenv\Dotenv;
+use App\Exceptions\ApiException;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,9 +15,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $dotenv = Dotenv::createMutable(base_path());
-        $dotenv->load();
-        $dotenv->required(['SERVER_PORT', 'CLIENT_ORIGIN_URL']);
+        try {
+            $dotenv = Dotenv::createMutable(base_path());
+            $dotenv->load();
+            $dotenv->required(['SERVER_PORT', 'CLIENT_ORIGIN_URL']);
+        } catch (\Exception $ex) {
+            throw new ApiException('The required environment variables are missing. Please check the .env file.');
+        }
     }
 
     /**
