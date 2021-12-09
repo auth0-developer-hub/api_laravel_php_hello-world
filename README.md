@@ -1,31 +1,32 @@
 # Hello World API: Laravel + PHP Sample
 
-You can use this sample project to learn how to secure a simple Laravel API server using Auth0. This guide is for Laravel 8.0+ running on PHP 7.4+
+This branch uses the [Auth0 PHP SDK](https://github.com/auth0/auth0-php) to implement authorization for two of the three endpoints built in the [starter](https://github.com/auth0-developer-hub/api_lumen_php_hello-world/tree/starter) branch. In summary:
 
-The `starter` branch offers a working API server that exposes three public endpoints. Each endpoint returns a different type of message: public, protected, and admin.
+- The `GET /api/messages/protected` and `GET /api/messages/admin` branches will be protected against unauthorized access. For this, you need to send a valid access token in the request header.
 
-The goal is to use Auth0 to only allow requests that contain a valid access token in their authorization header to access the protected and admin data. Additionally, only access tokens that contain a `read:admin-messages` permission should access the admin data, which is referred to as [Role-Based Access Control (RBAC)](https://auth0.com/docs/authorization/rbac/).
+- The `GET /api/messages/public` endpoint will still be unsecured.
 
-[Check out the `add-authorization` branch](https://github.com/yemiwebby/api-server-laravel/tree/add-authorization) to see authorization in action using Auth0.
-
-[Check out the `add-rbac` branch](https://github.com/yemiwebby/api-server-laravel/tree/add-rbac) to see authorization and Role-Based Access Control (RBAC) in action using Auth0.
+For a Role-Based access control please [Check out the `add-rbac` branch](https://github.com/auth0-developer-hub/api_lumen_php_hello-world/tree/add-rbac) to see authorization and Role-Based Access Control (RBAC) in action using Auth0.
 
 
 ## Get Started
 
 ### Set up your environment
 
-Navigate to the base directory of this repo and generate an environment configuration file (`.env`). Laravel reads this information from the file through the `phpdotenv` library, included with the framework. We've provided a sample file that you can copy and tweak as needed. Usually, fresh Laravel installations have a lot of environment variables set that configure most of the included services, however, you will find that the example environment file we've provided is a lot leaner. It has the exact required variables to run a simple API server.
+Generate the .env file by running the following command.
 
 ```bash
 cp .env.example .env
 ```
+Feel free to change the values as needed directly in the .env file. For the AUTH0_AUDIENCE and AUTH0_DOMAIN values, please check out the "Register your API" section below.
 
-The `.env.example` file will contain default values, which you can use out of the box to integrate with compatible client applications in the future. However, feel free to change them as needed directly in the .env file.
+As a second step, please install the project's dependencies
 
-### Generate the app key
+```bash
+composer install
+```
 
-Before starting the application you need to generate an application key. This is done through artisan with the following command:
+Finally, generate an APP_KEY:
 
 ```bash
 
@@ -38,20 +39,32 @@ Before starting the application you need to generate an application key. This is
 php artisan key:generate
 ```
 
-This command will generate a key directly on the `.env` file of your application, which will allow you to start the server.
+### Register your API
 
+Create a free account in Auth0, and log into the dashboard. From this point, follow these steps to set up your API:
 
-### Install the project's dependencies
+- Click on Applications -> APIs on the Dashboard sidebar.
 
-The dependencies needed by this example are already included with Laravel and handled with the Composer package manager. Composer makes it easy to manage your direct dependencies through a `composer.json` file, and freezes the required versions for all dependencies through the `composer.lock` file. You can find more information for composer [in this link](https://getcomposer.org/doc/00-intro.md).
+- Click on **Create API**, and fill out the required fields. You can use the following sample data or provide your own:
+  - Name: _Hello World API Server_.
+  - Identifier: http://my.hello-world.server
+  - Signing Algorithm: RS256
 
-To install the required project dependencies run the following command.
+- Click on **Create**.
 
-```bash
-composer install
-```
+For more information on this part, please check out ["Register APIs"](https://auth0.com/docs/get-started/set-up-apis).
 
-This will pull the Laravel framework and its own dependencies into the environment, allowing you to use them.
+As a next step, let's get the value for `AUTH0_AUDIENCE`
+
+- Click on Applications -> APIs on the Dashboard sidebar, and click on the API you created in the previous step
+- Click on the Settings tab
+- Get the `Identifier` field's value and use it for the `AUTH0_AUDIENCE` in your `.env` file
+
+Finally, let's get the `AUTH0_DOMAIN` value with the following steps:
+
+- Click on Applications -> APIs on the Dashboard sidebar, and click on the API you created in the previous step
+- Click on the Test tab, and then on the cURL tab below if it's not selected
+- Copy the value from the `--url` parameter in the sample POST request, not including the `https://` or `/oauth/token` parts (for example, if the `--url` complete value is `https://dev-abcdefg.us.auth0.com/oauth/token`, just copy the `dev-abcdefg.us.auth0.com` part). Use this value for the `AUTH0_DOMAIN` in your `.env` file
 
 ### Start your Laravel application
 
@@ -67,6 +80,15 @@ This step will differ a little bit depending on your Laravel installation method
 
 php artisan serve
 ```
+
+### Test the endpoints
+
+Once the server is up, you will be able to test your protected endpoints. You can check the following steps:
+
+- Click on Applications -> APIs on the Dashboard sidebar, and click on the API you created in the previous step
+- Click on the Test tab, and then on the cURL tab below if it's not selected
+- Copy the cURL string and replace the `--url` parameter with your local protected endpoint. Please do not change the bearer token
+
 
 ## API Endpoints
 
@@ -89,6 +111,8 @@ Status: 200 OK
   "message": "The API doesn't require an access token to share this message."
 }
 ```
+
+> 🔐 Protected Endpoints: These endpoints require the request to include an access token issued by Auth0 in the authorization header.
 
 ### 🔓 Get protected message
 
@@ -159,13 +183,3 @@ Status: 500 Internal Server Error
   "message": "Message that describes the error that took place."
 }
 ```
-
-## Additional information
-
-### HTTP Security Headers
-
-Security headers are being set through the `\App\Http\Middleware\HttpHeaders` middleware. Please refer to that file to check the recommended secure values based on the [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/#div-headers).
-
-### CORS
-
-CORS configuration is being done through the `\Fruitcake\Cors\HandleCors` middleware. Its recommended secure values can be found in `app/config/cors.php`. These values are very specific and enable a high security level on the application by restricting cross-domain API calls.

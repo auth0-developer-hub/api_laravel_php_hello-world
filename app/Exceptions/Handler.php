@@ -42,7 +42,8 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (ApiException $exception) {
-            return $this->apiError($exception->getMessage(), 500);
+            $body = $exception->hasDetails() ? $exception->getDetails() : $exception->getMessage();
+            return $this->apiError($body, $exception->getCode());
         });
 
         $this->renderable(function (Throwable $exception) {
