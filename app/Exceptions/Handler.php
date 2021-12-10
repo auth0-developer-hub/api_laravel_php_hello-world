@@ -42,16 +42,20 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (ApiException $exception) {
-            return $this->apiError($exception->getMessage(), 500);
+            if ($exception->hasDetails()) {
+                return response()->json($exception->getDetails(), $exception->getCode());
+            }
+
+            return $this->apiError($exception->getMessage(), $exception->getCode());
         });
 
         $this->renderable(function (Throwable $exception) {
-            dd($exception->getMessage());
             return $this->apiError('Internal Server Error', 500);
         });
     }
 
-    protected function apiError($message, $code) {
+    protected function apiError($message, $code)
+    {
         return response()->json(['message' => $message], $code);
     }
 }
