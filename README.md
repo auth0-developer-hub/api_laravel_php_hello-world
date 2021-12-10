@@ -172,7 +172,7 @@ Status: Corresponding 400 status code
 
 ```json
 {
-  "message": "Message that describes the error that took place."
+  "text": "Message that describes the error that took place."
 }
 ```
 
