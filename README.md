@@ -1,12 +1,12 @@
 # Hello World API: Laravel + PHP Sample
 
-This branch uses the [Auth0 PHP SDK](https://github.com/auth0/auth0-php) to implement authorization for two of the three endpoints built in the [starter](https://github.com/auth0-developer-hub/api_lumen_php_hello-world/tree/starter) branch. In summary:
+This branch uses the [Auth0 PHP SDK](https://github.com/auth0/auth0-php) to implement authorization for two of the three endpoints built in the [starter](https://github.com/auth0-developer-hub/api_laravel_php_hello-world/tree/starter) branch. In summary:
 
 - The `GET /api/messages/protected` and `GET /api/messages/admin` branches will be protected against unauthorized access. For this, you need to send a valid access token in the request header.
 
 - The `GET /api/messages/public` endpoint will still be unsecured.
 
-For a Role-Based access control please [Check out the `add-rbac` branch](https://github.com/auth0-developer-hub/api_lumen_php_hello-world/tree/add-rbac) to see authorization and Role-Based Access Control (RBAC) in action using Auth0.
+For a Role-Based access control please [Check out the `add-rbac` branch](https://github.com/auth0-developer-hub/api_laravel_php_hello-world/tree/add-rbac) to see authorization and Role-Based Access Control (RBAC) in action using Auth0.
 
 
 ## Get Started
@@ -108,7 +108,7 @@ Status: 200 OK
 
 ```json
 {
-  "message": "The API doesn't require an access token to share this message."
+  "text": "The API doesn't require an access token to share this message."
 }
 ```
 
@@ -130,7 +130,7 @@ Status: 200 OK
 
 ```json
 {
-  "message": "The API successfully validated your access token."
+  "text": "The API successfully validated your access token."
 }
 ```
 
@@ -150,7 +150,7 @@ Status: 200 OK
 
 ```json
 {
-  "message": "The API successfully recognized you as an admin."
+  "text": "The API successfully recognized you as an admin."
 }
 ```
 
@@ -166,7 +166,7 @@ Status: Corresponding 400 status code
 
 ```json
 {
-  "message": "Message that describes the error that took place."
+  "text": "Message that describes the error that took place."
 }
 ```
 
@@ -183,3 +183,46 @@ Status: 500 Internal Server Error
   "message": "Message that describes the error that took place."
 }
 ```
+
+
+
+## [Optional] Add Cache to Your Project
+
+For performance reasons, [Auth0 PHP SDK](https://github.com/auth0/auth0-php) supports (and recommends) using a [PSR-6 Compatible Caching Library](https://www.php-fig.org/psr/psr-6/). The library will be used to temporarily store [JWKS](https://auth0.com/docs/security/tokens/json-web-tokens/json-web-key-sets) public keys. Adding this cache layer avoids making a request to `AUTH0_DOMAIN` everytime you need to verify a token.
+
+To add cache to this project, you'll need to do the following:
+
+1. Add [`symfony/cache`](https://symfony.com/doc/current/components/cache.html) dependency:
+    ```bash
+    composer require symfony/cache
+    ```
+    This library is required because it provides an [adapter](https://symfony.com/doc/current/components/cache/psr6_psr16_adapters.html) needed to wrap [Laravel's cache](https://laravel.com/docs/8.x/cache) as a PSR-6 compatible interface required by Auth0 PHP SDK.
+
+2. The default driver for cache in Laravel is the `file` driver. If you want to use a different driver, set it up on your env file:
+    ```bash
+    CACHE_DRIVER=<driver>
+    ```
+    Laravel supports a wide variety of the cache drivers. Please refer to its [documentation](https://laravel.com/docs/8.x/cache) for more details.
+3. Add `useCache` to enable cache for Auth0 on `config/auth0.php`:
+    ```php
+    <?php
+    return [
+        'domain' => env('AUTH0_DOMAIN'),
+        'audience' => [ env('AUTH0_AUDIENCE') ],
+        'useCache' => true // Add this line
+    ];
+    //...
+    ```
+4. Reload your configuration:
+    ```bash
+    php artisan config:cache
+    ```
+
+## Code Sample Specs
+This code sample uses the following main tooling versions:
+
+- Laravel v8.75.0
+- PHP v7.4.25
+- Auth0 PHP SDK v8.0.3
+
+The Laravel project dependency installations were tested with Composer v2.1.14.
