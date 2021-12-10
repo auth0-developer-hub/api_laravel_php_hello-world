@@ -20,6 +20,6 @@ Route::group(['prefix' => 'messages'], function () {
 
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('protected', [MessagesController::class, 'showProtectedMessage']);
-        Route::get('admin', [MessagesController::class, 'showAdminMessage']);
+        Route::get('admin', [MessagesController::class, 'showAdminMessage'])->middleware('can:read:admin-messages');
     });
 });

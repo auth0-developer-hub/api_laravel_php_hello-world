@@ -1,13 +1,19 @@
 # Hello World API: Laravel + PHP Sample
 
-This branch uses the [Auth0 PHP SDK](https://github.com/auth0/auth0-php) to implement authorization for two of the three endpoints built in the [starter](https://github.com/auth0-developer-hub/api_laravel_php_hello-world/tree/starter) branch. In summary:
+This sample uses [Auth0 PHP SDK](https://github.com/auth0/auth0-php) to implement the following security task:
 
-- The `GET /api/messages/protected` and `GET /api/messages/admin` branches will be protected against unauthorized access. For this, you need to send a valid access token in the request header.
+The `add-rbac` branch offers a working API server that exposes a public
+endpoint along with two protected endpoints. Each endpoint returns a different
+type of message: public, protected, and admin.
 
-- The `GET /api/messages/public` endpoint will still be unsecured.
+The `GET /api/messages/protected` and `GET /api/messages/admin` endpoints are
+protected against unauthorized access. Any requests that contain a valid access
+token in their authorization header can access the protected and admin data.
 
-For a Role-Based access control please [Check out the `add-rbac` branch](https://github.com/auth0-developer-hub/api_laravel_php_hello-world/tree/add-rbac) to see authorization and Role-Based Access Control (RBAC) in action using Auth0.
-
+Additionally, the `GET /api/messages/admin` endpoint requires the access tokens
+to contain a `read:admin-messages` permission in order to access the admin
+data, which is referred to as [Role-Based Access Control
+(RBAC)](https://auth0.com/docs/authorization/rbac/).
 
 ## Get Started
 
@@ -136,7 +142,7 @@ Status: 200 OK
 
 ### 🔓 Get admin message
 
-> You need to protect this endpoint using Auth0 and Role-Based Access Control (RBAC).
+> Requires the user to have the `read:admin-messages` permission.
 
 ```bash
 GET /api/messages/admin
