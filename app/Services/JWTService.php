@@ -25,7 +25,7 @@ class JWTService implements JWTServiceInterface
         $authorization = $request->headers->get('authorization');
 
         if (empty($authorization)) {
-            throw new ApiException('Endpoint requires authentication', 401);
+            throw new ApiException('Requires authentication', 401);
         }
 
         $parts = explode(' ', $authorization);
