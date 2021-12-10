@@ -6,9 +6,9 @@ use App\Services\JWTService;
 use Auth0\SDK\Auth0;
 use Auth0\SDK\Configuration\SdkConfiguration;
 use Illuminate\Auth\GenericUser;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Lumen\Http\Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -24,6 +24,14 @@ class AuthServiceProvider extends ServiceProvider
                 'httpClient' => $this->app->make('httpClient'),
                 'strategy' => 'api'
             ]);
+
+            if (isset($config['useCache']) && $config['useCache']) {
+                $cacheStore = is_bool($config['useCache']) ? config('cache.default') : $config['useCache'];
+                $cache = Cache::store($cacheStore);
+
+                $config['tokenCache'] = new \Symfony\Component\Cache\Adapter\Psr16Adapter($cache);
+                unset($config['useCache']);
+            }
 
             $configuration = new SdkConfiguration($config);
 
@@ -43,7 +51,7 @@ class AuthServiceProvider extends ServiceProvider
         // should return either a User instance or null. You're free to obtain
         // the User instance via an API token or any other method necessary.
 
-        $this->app['auth']->viaRequest('api', function (Request $request) use ($jwtService) {
+        $this->app['auth']->viaRequest('auth0-token', function (Request $request) use ($jwtService) {
             $bearerToken = $jwtService->extractBearerTokenFromRequest($request);
             $data = $jwtService->decodeBearerToken($bearerToken);
 

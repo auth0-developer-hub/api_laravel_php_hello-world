@@ -6,7 +6,7 @@ use Auth0\SDK\Auth0;
 use Auth0\SDK\Exception\InvalidTokenException;
 use Auth0\SDK\Exception\NetworkException;
 use Auth0\SDK\Token;
-use Laravel\Lumen\Http\Request;
+use Illuminate\Http\Request;
 
 class JWTService implements JWTServiceInterface
 {

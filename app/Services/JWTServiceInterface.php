@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-use Laravel\Lumen\Http\Request;
+use Illuminate\Http\Request;
 
 interface JWTServiceInterface
 {

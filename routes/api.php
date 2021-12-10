@@ -18,7 +18,7 @@ use App\Http\Controllers\MessagesController;
 Route::group(['prefix' => 'messages'], function () {
     Route::get('public', [MessagesController::class, 'showPublicMessage']);
 
-    Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => 'auth:api'], function () {
         Route::get('protected', [MessagesController::class, 'showProtectedMessage']);
         Route::get('admin', [MessagesController::class, 'showAdminMessage']);
     });
