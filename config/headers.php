@@ -3,7 +3,7 @@
 return [
     'include' => [
         'X-XSS-Protection' => '0',
-        'Strict-Transport-Security' => 'max-age=31536000 ; includeSubDomains',
+        'Strict-Transport-Security' => 'max-age=31536000; includeSubDomains',
         'X-Frame-Options' => 'deny',
         'X-Content-Type-Options' => 'nosniff',
         'Content-Security-Policy' => "default-src 'self'; frame-ancestors 'none';",

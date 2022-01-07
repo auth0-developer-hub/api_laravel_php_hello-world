@@ -23,24 +23,6 @@ cp .env.example .env
 
 The `.env.example` file will contain default values, which you can use out of the box to integrate with compatible client applications in the future. However, feel free to change them as needed directly in the .env file.
 
-### Generate the app key
-
-Before starting the application you need to generate an application key. This is done through artisan with the following command:
-
-```bash
-
-# If you're running the project using Sail
-
-./vendor/bin/sail artisan key:generate
-
-# or, if you installed with composer...
-
-php artisan key:generate
-```
-
-This command will generate a key directly on the `.env` file of your application, which will allow you to start the server.
-
-
 ### Install the project's dependencies
 
 The dependencies needed by this example are already included with Laravel and handled with the Composer package manager. Composer makes it easy to manage your direct dependencies through a `composer.json` file, and freezes the required versions for all dependencies through the `composer.lock` file. You can find more information for composer [in this link](https://getcomposer.org/doc/00-intro.md).
