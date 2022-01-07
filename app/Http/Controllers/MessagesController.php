@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Services\MessageService;
+use Illuminate\Http\JsonResponse;
 
 class MessagesController extends Controller
 {
-    public function showPublicMessage(MessageService $messageService)
+    public function showPublicMessage(MessageService $messageService): JsonResponse
     {
-        return $messageService->getPublicMessage()->toArray();
+        return response()->json($messageService->getPublicMessage()->toArray());
     }
 
-    public function showAdminMessage(MessageService $messageService)
+    public function showAdminMessage(MessageService $messageService): JsonResponse
     {
-        return $messageService->getAdminMessage()->toArray();
+        return response()->json($messageService->getAdminMessage()->toArray());
     }
 
-    public function showProtectedMessage(MessageService $messageService)
+    public function showProtectedMessage(MessageService $messageService): JsonResponse
     {
-        return $messageService->getProtectedMessage()->toArray();
+        return response()->json($messageService->getProtectedMessage()->toArray());
     }
 }

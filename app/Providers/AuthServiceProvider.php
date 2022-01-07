@@ -43,6 +43,7 @@ class AuthServiceProvider extends ServiceProvider
      * Boot the authentication services for the application.
      *
      * @return void
+     * @param JWTService $jwtService
      */
     public function boot(JWTService $jwtService)
     {
