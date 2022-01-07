@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessagesController;
 
@@ -15,7 +14,7 @@ use App\Http\Controllers\MessagesController;
 |
 */
 
-Route::group(['prefix' => 'messages'], function () {
+Route::group(['prefix' => 'messages', 'middleware' => ['insert-metadata']], function () {
     Route::get('public', [MessagesController::class, 'showPublicMessage']);
 
     Route::group(['middleware' => 'auth:api'], function () {
