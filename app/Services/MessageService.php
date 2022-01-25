@@ -7,16 +7,16 @@ class MessageService implements MessageServiceInterface
 {
     public function getPublicMessage(): Message
     {
-        return new Message("The API doesn't require an access token to share this message.");
+        return new Message("This is a public message.");
     }
 
     public function getProtectedMessage(): Message
     {
-        return new Message("The API successfully validated your access token.");
+        return new Message("This is a protected message.");
     }
 
     public function getAdminMessage(): Message
     {
-        return new Message("The API successfully recognized you as an admin.");
+        return new Message("This is an admin message.");
     }
 }

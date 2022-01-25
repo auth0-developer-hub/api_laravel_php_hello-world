@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Dotenv\Dotenv;
 use App\Exceptions\ApiException;
 use App\Services\JWTService;
 use App\Services\JWTServiceInterface;
@@ -20,17 +19,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        try {
-            $dotenv = Dotenv::createMutable(base_path());
-            $dotenv->load();
-            $dotenv->required([
-                'SERVER_PORT',
-                'CLIENT_ORIGIN_URL',
-                'AUTH0_AUDIENCE',
-                'AUTH0_DOMAIN'
-            ]);
-        } catch (\Exception $ex) {
-            throw new ApiException('The required environment variables are missing. Please check the .env file.');
+        if (!isset($_ENV['VALIDATE_ENV']) || $_ENV['VALIDATE_ENV']) {
+            $required = ['SERVER_PORT', 'CLIENT_ORIGIN_URL', 'AUTH0_AUDIENCE', 'AUTH0_DOMAIN'];
+            foreach ($required as $name) {
+                $value = env($name);
+                if (empty($value)) {
+                    throw new ApiException('The required environment variables are missing. Please check the .env file.');
+                }
+            }
         }
 
         $this->app->bind(MessageServiceInterface::class, MessageService::class);

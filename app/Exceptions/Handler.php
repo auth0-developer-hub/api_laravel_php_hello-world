@@ -2,14 +2,12 @@
 
 namespace App\Exceptions;
 
-use App\Exceptions\ApiException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
-
     /**
      * A list of the exception types that are not reported.
      *
@@ -38,7 +36,7 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->renderable(function (NotFoundHttpException $exception) {
-            return $this->apiError('Not found', 404);
+            return $this->apiError('Not Found', 404);
         });
 
         $this->renderable(function (ApiException $exception) {
