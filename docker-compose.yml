@@ -1,21 +1,13 @@
-# For more information: https://laravel.com/docs/sail
-version: '3'
+---
+version: "3.8"
 services:
-    laravel:
-        build:
-            context: ./vendor/laravel/sail/runtimes/8.0
-            dockerfile: Dockerfile
-            args:
-                WWWGROUP: '${WWWGROUP}'
-        image: sail-8.0/app
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
-        ports:
-            - '${SERVER_PORT:-80}:80'
-        environment:
-            WWWUSER: '${WWWUSER}'
-            LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-        volumes:
-            - '.:/var/www/html'
+  api:
+    build:
+      context: .
+      args:
+      - AUTH0_DOMAIN="${AUTH0_DOMAIN}"
+    image: api_laravel_php_hello-world:basic-rbac
+    env_file:
+      - .env
+    ports:
+      - 6060:6060

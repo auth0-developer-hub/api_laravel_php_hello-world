@@ -32,19 +32,6 @@ As a second step, please install the project's dependencies
 composer install
 ```
 
-Finally, generate an APP_KEY:
-
-```bash
-
-# If you're running the project using Sail
-
-./vendor/bin/sail artisan key:generate
-
-# or, if you installed with composer...
-
-php artisan key:generate
-```
-
 ### Register your API
 
 Create a free account in Auth0, and log into the dashboard. From this point, follow these steps to set up your API:
